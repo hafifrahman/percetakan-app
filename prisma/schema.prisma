@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  phone     BigInt?
+  address   String?
+  password  String
+  role      Role      @default(USER)
+  createdAt DateTime  @default(now())
+  sessions  Session[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("sessions")
+}
+
+enum OrderStatus {
+  QUEUED
+  CUTTING
+  SEWING
+  DONE
+  CANCELED
+}
+
+model Order {
+  id           String      @id @default(cuid())
+  customer     String
+  status       OrderStatus @default(QUEUED)
+  deadline     DateTime
+  total_amount Int
+  createdAt    DateTime    @default(now())
+
+  @@map("orders")
+}
