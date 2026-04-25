@@ -16,7 +16,7 @@ model User {
   id        String    @id @default(cuid())
   name      String
   email     String    @unique
-  phone     BigInt?
+  phone     String?
   address   String?
   password  String
   role      Role      @default(USER)
@@ -41,7 +41,7 @@ enum OrderStatus {
   CUTTING
   SEWING
   DONE
-  CANCELED
+  CANCELLED
 }
 
 model Order {

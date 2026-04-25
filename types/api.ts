@@ -17,7 +17,7 @@ export type User = Entity<{
   name: string
   email: string
   password: string
-  phone: number
+  phone: string
   address: string
   role: 'ADMIN' | 'USER'
 }>

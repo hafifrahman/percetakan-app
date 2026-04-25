@@ -9,7 +9,7 @@ const main = async () => {
     data: {
       name: 'Budi',
       email: 'budi@example.com',
-      phone: Number('081234567890'),
+      phone: '081234567890',
       address: 'Banjarmasin',
       password: 'hashedpassword',
       role: 'USER',
@@ -20,7 +20,7 @@ const main = async () => {
     data: {
       name: 'Siti',
       email: 'siti@example.com',
-      phone: Number('082345678901'),
+      phone: '082345678901',
       address: 'Banjarbaru',
       password: 'hashedpassword',
       role: 'USER',

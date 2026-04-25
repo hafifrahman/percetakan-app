@@ -1,6 +1,8 @@
 'use client'
 
+import { useQueryClient } from '@tanstack/react-query'
 import { MoreHorizontal } from 'lucide-react'
+import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -12,12 +14,18 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { DataTable } from '@/components/ui/table'
+import { paths } from '@/config/paths'
 import { formatDate } from '@/lib/utils'
 
+import { getUserQueryOptions } from '../api/get-user'
 import { useUsers } from '../api/get-users'
+
+import { DeleteUser } from './delete-user'
 
 export const UsersList = () => {
   const usersQuery = useUsers()
+
+  const queryClient = useQueryClient()
 
   const users = usersQuery.data?.data ?? []
 
@@ -86,7 +94,9 @@ export const UsersList = () => {
         },
         {
           id: 'actions',
-          cell: () => {
+          cell: ({ row }) => {
+            const user = row.original
+
             return (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -97,8 +107,15 @@ export const UsersList = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align='end'>
                   <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                  <DropdownMenuItem>Ubah</DropdownMenuItem>
-                  <DropdownMenuItem>Hapus</DropdownMenuItem>
+                  <DropdownMenuItem
+                    asChild
+                    onMouseEnter={() => {
+                      queryClient.prefetchQuery(getUserQueryOptions(user.id))
+                    }}
+                  >
+                    <Link href={paths.user.getHref(user.id)}>Lihat</Link>
+                  </DropdownMenuItem>
+                  <DeleteUser userId={user.id} />
                 </DropdownMenuContent>
               </DropdownMenu>
             )
