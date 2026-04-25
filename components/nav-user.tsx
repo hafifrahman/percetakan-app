@@ -129,7 +129,10 @@ const Logout = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <DropdownMenuItem onSelect={e => e.preventDefault()}>
+        <DropdownMenuItem
+          variant='destructive'
+          onSelect={e => e.preventDefault()}
+        >
           <LogOutIcon />
           Keluar
         </DropdownMenuItem>
