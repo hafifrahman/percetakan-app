@@ -100,7 +100,7 @@ export const UsersList = () => {
             return (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant='ghost' className='h-8 w-8 p-0'>
+                  <Button variant='ghost' className='size-8 p-0'>
                     <span className='sr-only'>Open menu</span>
                     <MoreHorizontal className='h-4 w-4' />
                   </Button>
@@ -108,10 +108,10 @@ export const UsersList = () => {
                 <DropdownMenuContent align='end'>
                   <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                   <DropdownMenuItem
-                    asChild
                     onMouseEnter={() => {
                       queryClient.prefetchQuery(getUserQueryOptions(user.id))
                     }}
+                    asChild
                   >
                     <Link href={paths.user.getHref(user.id)}>Lihat</Link>
                   </DropdownMenuItem>

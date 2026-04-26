@@ -1,12 +1,15 @@
 import { cookies } from 'next/headers'
-import { NextRequest, NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 
 import { prisma } from '@/lib/prisma'
 
-export const GET = async (
-  _req: NextRequest,
-  { params }: { params: Promise<{ userId: string }> },
-) => {
+type Params = {
+  params: Promise<{
+    userId: string
+  }>
+}
+
+export const GET = async (_req: NextRequest, { params }: Params) => {
   try {
     const { userId } = await params
     const user = await prisma.user.findUnique({
@@ -33,10 +36,7 @@ export const GET = async (
   }
 }
 
-export const PATCH = async (
-  req: NextRequest,
-  { params }: { params: Promise<{ userId: string }> },
-) => {
+export const PATCH = async (req: NextRequest, { params }: Params) => {
   try {
     const sessionId = (await cookies()).get('session')?.value
 
@@ -86,10 +86,7 @@ export const PATCH = async (
   }
 }
 
-export const DELETE = async (
-  _req: NextRequest,
-  { params }: { params: Promise<{ userId: string }> },
-) => {
+export const DELETE = async (_req: NextRequest, { params }: Params) => {
   try {
     const sessionId = (await cookies()).get('session')?.value
 

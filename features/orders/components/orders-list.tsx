@@ -1,6 +1,8 @@
 'use client'
 
+import { useQueryClient } from '@tanstack/react-query'
 import { MoreHorizontal } from 'lucide-react'
+import Link from 'next/link'
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -13,10 +15,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { DataTable } from '@/components/ui/table'
+import { paths } from '@/config/paths'
 import { formatCurrency, formatDate } from '@/lib/utils'
 import type { Order } from '@/types/api'
 
+import { getOrderQueryOptions } from '../api/get-order'
 import { useOrders } from '../api/get-orders'
+
+import { DeleteOrder } from './delete-order'
 
 const statusConfig: Record<
   Order['status'],
@@ -31,6 +37,8 @@ const statusConfig: Record<
 
 export const OrdersList = () => {
   const ordersQuery = useOrders()
+
+  const queryClient = useQueryClient()
 
   const orders = ordersQuery.data?.data ?? []
 
@@ -100,19 +108,28 @@ export const OrdersList = () => {
         },
         {
           id: 'actions',
-          cell: () => {
+          cell: ({ row }) => {
+            const order = row.original
+
             return (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant='ghost' className='h-8 w-8 p-0'>
+                  <Button variant='ghost' className='size-8 p-0'>
                     <span className='sr-only'>Open menu</span>
-                    <MoreHorizontal className='h-4 w-4' />
+                    <MoreHorizontal className='size-4' />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align='end'>
                   <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                  <DropdownMenuItem>Ubah</DropdownMenuItem>
-                  <DropdownMenuItem>Hapus</DropdownMenuItem>
+                  <DropdownMenuItem
+                    onMouseEnter={() => {
+                      queryClient.prefetchQuery(getOrderQueryOptions(order.id))
+                    }}
+                    asChild
+                  >
+                    <Link href={paths.order.getHref(order.id)}>Lihat</Link>
+                  </DropdownMenuItem>
+                  <DeleteOrder orderId={order.id} />
                 </DropdownMenuContent>
               </DropdownMenu>
             )

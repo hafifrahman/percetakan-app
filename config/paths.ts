@@ -20,5 +20,11 @@ export const paths = {
   },
   orders: {
     getHref: () => '/orders',
+    create: {
+      getHref: () => '/orders/create',
+    },
+  },
+  order: {
+    getHref: (id: string) => `/orders/${id}`,
   },
 }

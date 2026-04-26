@@ -67,8 +67,8 @@ export const UpdateUser = ({ userId }: UpdateUserProps) => {
 
   return (
     <form
-      onSubmit={handleSubmit(value =>
-        updateUserMutation.mutate({ data: value, userId }),
+      onSubmit={handleSubmit(data =>
+        updateUserMutation.mutate({ data, userId }),
       )}
     >
       <FieldGroup>
@@ -111,11 +111,11 @@ export const UpdateUser = ({ userId }: UpdateUserProps) => {
           <Controller
             name='role'
             control={control}
-            render={({ field }) => (
-              <Field>
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
                 <FieldLabel htmlFor='role'>Peran</FieldLabel>
                 <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger id='role'>
+                  <SelectTrigger id='role' aria-invalid={fieldState.invalid}>
                     <SelectValue placeholder='Pilih peran' />
                   </SelectTrigger>
                   <SelectContent>
@@ -184,19 +184,10 @@ export const UpdateUser = ({ userId }: UpdateUserProps) => {
         />
         <FieldSeparator />
         <Field>
-          <Button
-            type='submit'
-            className='w-full'
-            loading={updateUserMutation.isPending}
-          >
+          <Button type='submit' loading={updateUserMutation.isPending}>
             Perbarui Pengguna
           </Button>
-          <Button
-            type='button'
-            variant='outline'
-            className='mt-2 w-full'
-            asChild
-          >
+          <Button type='button' variant='outline' className='mt-2' asChild>
             <Link href={paths.users.getHref()}>Kembali</Link>
           </Button>
         </Field>

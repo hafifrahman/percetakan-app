@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-query'
 import type { Metadata } from 'next'
 
-import { getOrdersQueryOptions } from '@/features/orders/api/get-orders'
+import { getUsersQueryOptions } from '@/features/users/api/get-users'
 
 import { Users } from './_components/users'
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 const UsersPage = async () => {
   const queryClient = new QueryClient()
-  await queryClient.prefetchQuery(getOrdersQueryOptions())
+  await queryClient.prefetchQuery(getUsersQueryOptions())
   const dehydratedState = dehydrate(queryClient)
 
   return (
