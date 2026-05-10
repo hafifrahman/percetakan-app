@@ -5,6 +5,7 @@ import { prisma } from '@/lib/prisma'
 export const GET = async () => {
   try {
     const users = await prisma.user.findMany({
+      where: { role: 'USER' },
       orderBy: { createdAt: 'desc' },
     })
 

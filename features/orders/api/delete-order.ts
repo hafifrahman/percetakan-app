@@ -35,7 +35,7 @@ export const useDeleteOrder = ({
         })
       }
       onSuccess?.(...args)
-      toast.success('Order berhasil dihapus')
+      toast.success('Pesanan berhasil dihapus')
     },
     ...restConfig,
     mutationFn: deleteOrder,

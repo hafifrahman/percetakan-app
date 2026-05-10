@@ -12,7 +12,7 @@ import { getOrdersQueryOptions } from './get-orders'
 export const updateOrderInputSchema = z.object({
   customer: z.string().min(3, 'Nama minimal 3 karakter'),
   status: z.enum(['QUEUED', 'CUTTING', 'SEWING', 'DONE', 'CANCELLED']),
-  deadline: z.coerce.date().refine(date => date.getTime() > Date.now(), {
+  deadline: z.string().refine(val => new Date(val).getTime() > Date.now(), {
     message: 'Deadline harus di masa depan',
   }),
   total_amount: z.number().positive('Total amount harus lebih besar dari 0'),

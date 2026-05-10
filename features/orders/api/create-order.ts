@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
 import z from 'zod'
 
 import { api } from '@/lib/api-client'
@@ -46,6 +47,7 @@ export const useCreateOrder = ({
         queryKey: getOrderQueryOptions(data.id).queryKey,
       })
       onSuccess?.(data, ...args)
+      toast.success('Pesanan berhasil dibuat')
     },
     ...restConfig,
     mutationFn: createOrder,

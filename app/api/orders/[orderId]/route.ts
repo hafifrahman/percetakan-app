@@ -43,7 +43,10 @@ export const PATCH = async (req: NextRequest, { params }: Params) => {
 
     const updatedOrder = await prisma.order.update({
       where: { id: orderId },
-      data: body,
+      data: {
+        ...body,
+        deadline: new Date(body.deadline),
+      },
     })
 
     return NextResponse.json({

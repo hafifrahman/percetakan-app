@@ -1,5 +1,6 @@
 import nextVitals from 'eslint-config-next/core-web-vitals'
 import nextTs from 'eslint-config-next/typescript'
+import eslintPluginBetterTailwindCss from 'eslint-plugin-better-tailwindcss'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 const eslintConfig = defineConfig([
@@ -13,6 +14,26 @@ const eslintConfig = defineConfig([
     'build/**',
     'next-env.d.ts',
   ]),
+  {
+    plugins: {
+      'better-tailwindcss': eslintPluginBetterTailwindCss,
+    },
+    rules: {
+      ...eslintPluginBetterTailwindCss.configs['recommended-warn'].rules,
+      'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
+    },
+    settings: {
+      'better-tailwindcss': {
+        entryPoint: 'app/globals.css',
+      },
+    },
+  },
+  {
+    files: ['components/ui/**/*'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': ['off'],
+    },
+  },
 ])
 
 export default eslintConfig

@@ -1,10 +1,11 @@
 {
-    "arrowParens": "avoid",
-    "jsxSingleQuote": true,
-    "semi": false,
-    "singleQuote": true,
-    "plugins": [
-        "prettier-plugin-organize-imports",
-        "prettier-plugin-tailwindcss"
-    ]
+  "arrowParens": "avoid",
+  "jsxSingleQuote": true,
+  "semi": false,
+  "singleQuote": true,
+  "plugins": [
+    "prettier-plugin-organize-imports",
+    "prettier-plugin-tailwindcss"
+  ],
+  "tailwindStylesheet": "./app/globals.css"
 }

@@ -1,11 +1,11 @@
 'use client'
 
 import { cva, type VariantProps } from 'class-variance-authority'
-import { useMemo } from 'react'
 
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
+import type { FieldError as FieldErrorType } from 'react-hook-form'
 
 const FieldSet = ({
   className,
@@ -109,7 +109,7 @@ const FieldLabel = ({
     <Label
       data-slot='field-label'
       className={cn(
-        'group/field-label peer/field-label has-data-checked:border-primary/30 has-data-checked:bg-primary/5 dark:has-data-checked:border-primary/20 dark:has-data-checked:bg-primary/10 flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5',
+        'group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-data-checked:border-primary/30 has-data-checked:bg-primary/5 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5 dark:has-data-checked:border-primary/20 dark:has-data-checked:bg-primary/10',
         'has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col',
         className,
       )}
@@ -123,7 +123,7 @@ const FieldTitle = ({ className, ...props }: React.ComponentProps<'div'>) => {
     <div
       data-slot='field-label'
       className={cn(
-        'flex w-fit items-center gap-2 text-sm leading-snug font-medium group-data-[disabled=true]/field:opacity-50',
+        'flex w-fit items-center gap-2 text-sm/snug font-medium group-data-[disabled=true]/field:opacity-50',
         className,
       )}
       {...props}
@@ -139,9 +139,9 @@ const FieldDescription = ({
     <p
       data-slot='field-description'
       className={cn(
-        'text-muted-foreground text-left text-sm leading-normal font-normal group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5',
+        'text-left text-sm/normal font-normal text-muted-foreground group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5',
         'last:mt-0 nth-last-2:-mt-1',
-        '[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4',
+        '[&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary',
         className,
       )}
       {...props}
@@ -169,7 +169,7 @@ const FieldSeparator = ({
       <Separator className='absolute inset-0 top-1/2' />
       {children && (
         <span
-          className='bg-background text-muted-foreground relative mx-auto block w-fit px-2'
+          className='relative mx-auto block w-fit bg-background px-2 text-muted-foreground'
           data-slot='field-separator-content'
         >
           {children}
@@ -181,52 +181,44 @@ const FieldSeparator = ({
 
 const FieldError = ({
   className,
-  children,
-  errors,
+  errorMessage,
   ...props
 }: React.ComponentProps<'div'> & {
-  errors?: Array<{ message?: string } | undefined>
+  errorMessage?: string
 }) => {
-  const content = useMemo(() => {
-    if (children) {
-      return children
-    }
-
-    if (!errors?.length) {
-      return null
-    }
-
-    const uniqueErrors = [
-      ...new Map(errors.map(error => [error?.message, error])).values(),
-    ]
-
-    if (uniqueErrors?.length == 1) {
-      return uniqueErrors[0]?.message
-    }
-
-    return (
-      <ul className='ml-4 flex list-disc flex-col gap-1'>
-        {uniqueErrors.map(
-          (error, index) =>
-            error?.message && <li key={index}>{error.message}</li>,
-        )}
-      </ul>
-    )
-  }, [children, errors])
-
-  if (!content) {
-    return null
-  }
+  if (!errorMessage) return null
 
   return (
     <div
       role='alert'
       data-slot='field-error'
-      className={cn('text-destructive text-sm font-normal', className)}
+      className={cn('text-sm font-normal text-destructive', className)}
       {...props}
     >
-      {content}
+      {errorMessage}
     </div>
+  )
+}
+
+type FieldWrapperProps = {
+  children: React.ReactNode
+  className?: string
+  error?: FieldErrorType
+  label?: string
+}
+
+type FieldWrapperPassThroughProps = Omit<
+  FieldWrapperProps,
+  'className' | 'children'
+>
+
+const FieldWrapper = ({ children, error, label }: FieldWrapperProps) => {
+  return (
+    <Field>
+      <FieldLabel htmlFor={label}>{label}</FieldLabel>
+      <div className='mt-2'>{children}</div>
+      {error && <FieldError errorMessage={error.message} />}
+    </Field>
   )
 }
 
@@ -241,4 +233,6 @@ export {
   FieldSeparator,
   FieldSet,
   FieldTitle,
+  FieldWrapper,
+  type FieldWrapperPassThroughProps,
 }
