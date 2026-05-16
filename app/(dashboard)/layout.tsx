@@ -9,8 +9,8 @@ const AppLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <Suspense
       fallback={
-        <div className='flex size-full items-center justify-center'>
-          <Spinner className='size-24' />
+        <div className='flex min-h-screen items-center justify-center'>
+          <Spinner className='size-16' />
         </div>
       }
     >

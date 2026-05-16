@@ -50,7 +50,7 @@ const RootLayout = async ({
       )}
       suppressHydrationWarning
     >
-      <body className='flex min-h-full flex-col'>
+      <body className='flex min-h-screen flex-col'>
         <AppProvider>
           <HydrationBoundary state={dehydratedState}>
             {children}
