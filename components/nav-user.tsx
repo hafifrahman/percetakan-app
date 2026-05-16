@@ -13,6 +13,7 @@ import { paths } from '@/config/paths'
 import { useLogout } from '@/lib/auth'
 import type { User } from '@/types/api'
 
+import { useState } from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -122,16 +123,24 @@ const Logout = () => {
   const router = useRouter()
   const pathname = usePathname()
 
+  const [open, setOpen] = useState(false)
+
   const logout = useLogout({
-    onSuccess: () => router.push(paths.auth.login.getHref(pathname)),
+    onSuccess: () => {
+      setOpen(false)
+      router.push(paths.auth.login.getHref(pathname))
+    },
   })
 
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <DropdownMenuItem
           variant='destructive'
-          onSelect={e => e.preventDefault()}
+          onSelect={e => {
+            e.preventDefault()
+            setOpen(true)
+          }}
         >
           <LogOutIcon />
           Keluar
@@ -148,7 +157,9 @@ const Logout = () => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel variant='outline'>Batal</AlertDialogCancel>
+          <AlertDialogCancel variant='outline' disabled={logout.isPending}>
+            Batal
+          </AlertDialogCancel>
           <AlertDialogAction
             variant='destructive'
             disabled={logout.isPending}
