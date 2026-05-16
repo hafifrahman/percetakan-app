@@ -1,6 +1,7 @@
 'use client'
 
 import { ChevronRightIcon, MoreHorizontalIcon } from 'lucide-react'
+import Link from 'next/link'
 import { Slot } from 'radix-ui'
 import { createContext, useContext, useState } from 'react'
 
@@ -50,10 +51,10 @@ const BreadcrumbLink = ({
   asChild,
   className,
   ...props
-}: React.ComponentProps<'a'> & {
+}: React.ComponentProps<typeof Link> & {
   asChild?: boolean
 }) => {
-  const Comp = asChild ? Slot.Root : 'a'
+  const Comp = asChild ? Slot.Root : Link
 
   return (
     <Comp
