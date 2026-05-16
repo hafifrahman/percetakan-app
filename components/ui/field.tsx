@@ -1,11 +1,11 @@
 'use client'
 
 import { cva, type VariantProps } from 'class-variance-authority'
+import type { FieldError as FieldErrorType } from 'react-hook-form'
 
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import type { FieldError as FieldErrorType } from 'react-hook-form'
 
 const FieldSet = ({
   className,
