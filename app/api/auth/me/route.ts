@@ -20,7 +20,6 @@ export const GET = async () => {
       return NextResponse.json({ message: 'Session Expired' }, { status: 401 })
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...safeUser } = session.user
 
     return NextResponse.json({

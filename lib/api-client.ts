@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { toast } from 'sonner'
 
 import { env } from '@/config/env'

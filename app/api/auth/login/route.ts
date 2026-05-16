@@ -36,7 +36,6 @@ export const POST = async (req: NextRequest) => {
       },
     })
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...safeUser } = user
 
     const res = NextResponse.json({ user: safeUser })

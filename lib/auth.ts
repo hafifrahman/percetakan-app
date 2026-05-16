@@ -16,7 +16,6 @@ export const getUser = async (): Promise<User | null> => {
   try {
     const response = (await api.get('/auth/me')) as { data: User }
     return response.data
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return null
   }
