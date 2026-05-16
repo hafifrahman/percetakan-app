@@ -2,23 +2,17 @@
 
 import { GalleryVerticalEndIcon } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 import { FieldDescription } from '@/components/ui/field'
 import { paths } from '@/config/paths'
-import { useUser } from '@/lib/auth'
 
-type AuthLayoutProps = {
+export const AuthLayoutComponent = ({
+  children,
+}: {
   children: React.ReactNode
-  description?: React.ReactNode
-}
-
-export const AuthLayoutComponent = ({ children }: AuthLayoutProps) => {
-  const user = useUser()
-
+}) => {
   const pathname = usePathname()
-  const router = useRouter()
   const isLoginPage = pathname === paths.auth.login.getHref()
 
   const searchParams = useSearchParams()
@@ -35,14 +29,6 @@ export const AuthLayoutComponent = ({ children }: AuthLayoutProps) => {
       <Link href={paths.auth.login.getHref(redirectTo)}>Masuk</Link>
     </>
   )
-
-  useEffect(() => {
-    if (user.data) {
-      router.replace(
-        `${redirectTo ? `${decodeURIComponent(redirectTo)}` : paths.dashboard.getHref()}`,
-      )
-    }
-  }, [user.data, router, redirectTo])
 
   return (
     <div className='flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10'>

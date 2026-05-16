@@ -1,7 +1,6 @@
 'use client'
 
-import { useRouter, useSearchParams } from 'next/navigation'
-import { Fragment, useEffect } from 'react'
+import { Fragment } from 'react'
 
 import { AppSidebar } from '@/components/app-sidebar'
 import { ModeToggle } from '@/components/mode-toggle'
@@ -21,25 +20,13 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar'
 import { paths } from '@/config/paths'
-import { useUser } from '@/lib/auth'
 
 type DashboardLayoutProps = {
   children: React.ReactNode
 }
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
-  const user = useUser()
   const { items: breadcrumbs } = useBreadcrumb()
-
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const redirectTo = searchParams?.get('redirectTo')
-
-  useEffect(() => {
-    if (!user.data) {
-      router.replace(paths.auth.login.getHref(redirectTo))
-    }
-  }, [user.data, router, redirectTo])
 
   return (
     <SidebarProvider>
